@@ -1,0 +1,23 @@
+{
+  "name": "webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "qs": "^6.5.1",
+    "request": "^2.83.0",
+    "segment": "^0.1.3"
+  },
+  "dependencies": {
+    "bloomfilter-redis": "^0.1.2",
+    "fnv": "^0.1.3",
+    "mysql": "^2.16.0",
+    "redis": "^2.8.0"
+  }
+}
