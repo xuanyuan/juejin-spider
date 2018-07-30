@@ -10,7 +10,6 @@ redis-server v4.0.9
 npm install
 node article.js
 
-
 参考文章
 
 https://cnodejs.org/topic/5ad2c1a4ba60fcc66b7b80fe

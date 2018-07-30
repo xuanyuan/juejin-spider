@@ -1,11 +1,3 @@
-/**
- * Created with Software Dept.
- *
- * User: zhangdj
- * Date: 2018/7/19
- * Time: 17:13
- * Description:
- */
 const request = require('request');
 const json = require('./json');
 // 模拟登陆
@@ -18,8 +10,8 @@ let login = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                email: 'z_dianjun@163.com',
-                password: 'Duandan1114'
+                email: 'yourusername',
+                password: 'yourpasswd'
             })
         }, (err, res, body) => {
             if (err) {

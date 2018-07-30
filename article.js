@@ -1,12 +1,3 @@
-/**
- * Created with Software Dept.
- *
- * User: zhangdj
- * Date: 2018/7/21
- * Time: 10:26
- * Description:
- */
-
 const request = require('request');
 const login = require('./login');
 const store = require('./store');
@@ -19,12 +10,12 @@ client.on('error', function (err) {
     console.log('Error ' + err);
 });
 
-let isExist= (bf, str) => {
+let isExist = (bf, str) => {
 
     // invokes `SETBIT` to allocate memory in redis.For details https://redis.io/commands/setbit
     var promise = bf.init();
 
-    console.log('promise=',promise);
+    console.log('promise=', promise);
     promise.then(() => {
         return bf.contains(str);
     }).then((result) => {
@@ -41,8 +32,8 @@ let isExist= (bf, str) => {
     return promise;
 }
 
-let run = ()=> {
-    const bf = new BloomFilter({// all params have a default value, and I choose some to present below
+let run = () => {
+    const bf = new BloomFilter({ // all params have a default value, and I choose some to present below
         redisSize: 256, // this will create a string value which is 256 MegaBytes in length
         hashesNum: 16, // how many hash functions do we use
         redisKey: 'Bloomfilter', // default will create a string whose keyname is `Node_Bloomfilter_Redis`
@@ -67,21 +58,21 @@ let run = ()=> {
             url: url,
             qs: params
             // json: true
-        },function (err, res, body) {
+        }, function (err, res, body) {
             if (err) {
                 throw err;
             }
             let entrylist = JSON.parse(body).d.entrylist;
-            entrylist = entrylist.map( item => ({
-                objectId        :   item.objectId,
-                title           :   item.title,
-                createdAt       :   item.createdAt,
-                lastCommentTime :   item.lastCommentTime,
-                originalUrl     :   item.originalUrl,
-                user            :   JSON.stringify(item.user),
-                content         :   item.content,
-                summaryInfo     :   item.summaryInfo,
-                category        :   item.category
+            entrylist = entrylist.map(item => ({
+                objectId: item.objectId,
+                title: item.title,
+                createdAt: item.createdAt,
+                lastCommentTime: item.lastCommentTime,
+                originalUrl: item.originalUrl,
+                user: JSON.stringify(item.user),
+                content: item.content,
+                summaryInfo: item.summaryInfo,
+                category: item.category
             }));
 
             // console.log(typeof entrylist[0].user);
@@ -96,7 +87,7 @@ let run = ()=> {
                 });
             })
 
-            });
-        })
+        });
+    })
 }
-setInterval(run,1000 * 60 * 5);
+setInterval(run, 1000 * 60 * 5);
