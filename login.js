@@ -1,5 +1,5 @@
 const request = require('request');
-const json = require('./json');
+const jsonUtil = require('./jsonUtil');
 // 模拟登陆
 let login = () => {
     return new Promise((resolve, reject) =>{
@@ -15,33 +15,25 @@ let login = () => {
             })
         }, (err, res, body) => {
             if (err) {
-                // console.log('request error:', err);
                 reject(err);
             } else {
-                // console.log(res.headers['set-cookie'][0]);
                 const cookie = res.headers['set-cookie'];
-
                 const encodeToken = cookie[0]
                     .split(';')[0]
                     .split('=')[1];
                 const decodeToken = JSON.parse(Buffer.from(encodeToken, 'base64').toString());
-                // console.log(decodeToken);
                 resolve(decodeToken);
-
             }
         })
         }
     )
 }
 
-// 获取用户信息
+// 获取用户信息，存储到json文件中
 let getUserInfo = () => {
-    // let userInfo;
     login().then((loginInfo) => {
-        // console.log(loginInfo);
-        json.write(loginInfo);
+        jsonUtil.write(loginInfo);
     });
-    // return userInfo;
 }
 
 // getUserInfo();

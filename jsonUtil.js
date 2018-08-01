@@ -1,16 +1,29 @@
 const fs = require('fs');
 
-// 覆盖写
+
+/**
+ * @description 覆盖写入JSON文件用户内容
+ * @author zhangdj
+ * @date 2018-08-01
+ * @param {Object} params
+ */
 function write(params) {
-    fs.writeFile('./data.json', JSON.stringify(params), function (err) {
+    fs.writeFile('./userInfo.json', JSON.stringify(params), function (err) {
         if (err) throw err;
         console.log('write success');
     })
 }
 
+
+/**
+ * @description 读取JSON文件内容
+ * @author zhangdj
+ * @date 2018-08-01
+ * @returns 
+ */
 function read() {
     return new Promise((resolve, reject) => {
-        fs.readFile('./data.json', function (err, data) {
+        fs.readFile('./userInfo.json', function (err, data) {
             if (err) {
                 reject(err);
                 return;

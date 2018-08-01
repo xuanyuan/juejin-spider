@@ -1,7 +1,6 @@
 const request = require('request');
-const login = require('./login');
-const store = require('./store');
-const json = require('./json');
+const store = require('./dbUtil');
+const jsonUtil = require('./jsonUtil');
 const BloomFilter = require('bloomfilter-redis');
 const redis = require('redis'),
     client = redis.createClient();
@@ -11,15 +10,11 @@ client.on('error', function (err) {
 });
 
 let isExist = (bf, str) => {
-
     // invokes `SETBIT` to allocate memory in redis.For details https://redis.io/commands/setbit
     var promise = bf.init();
-
-    console.log('promise=', promise);
     promise.then(() => {
         return bf.contains(str);
     }).then((result) => {
-        console.log('result==', result);
         return new Promise((resolve, reject) => {
             if (!result) {
                 bf.add(str).then(() => {
@@ -43,8 +38,7 @@ let run = () => {
     const url = 'https://timeline-merger-ms.juejin.im/v1/get_entry_by_rank';
     const category = '5562b415e4b00c57d9b94ac8';
     const src = 'web';
-    json.read().then((userInfo) => {
-        // console.log(userInfo);
+    jsonUtil.read().then((userInfo) => {
         let params = {
             src: src,
             uid: userInfo.userId,
@@ -74,12 +68,10 @@ let run = () => {
                 summaryInfo: item.summaryInfo,
                 category: item.category
             }));
-
-            // console.log(typeof entrylist[0].user);
-            // console.log(entrylist);
             entrylist.forEach(v => {
                 let tmp = isExist(bf, v.objectId);
-                console.log('tmp=', tmp);
+                console.log('current value whether exist in redis:', tmp);
+                console.log('current insert value:', v);
                 tmp.then((isExist) => {
                     if (!isExist) {
                         store.insert(v);
