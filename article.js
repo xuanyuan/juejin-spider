@@ -1,40 +1,16 @@
 const request = require('request');
 const store = require('./dbUtil');
 const jsonUtil = require('./jsonUtil');
-const BloomFilter = require('bloomfilter-redis');
-const redis = require('redis'),
-    client = redis.createClient();
+const redis = require('redis');
+
+const client = redis.createClient();
+
 
 client.on('error', function (err) {
     console.log('Error ' + err);
 });
 
-let isExist = (bf, str) => {
-    // invokes `SETBIT` to allocate memory in redis.For details https://redis.io/commands/setbit
-    var promise = bf.init();
-    promise.then(() => {
-        return bf.contains(str);
-    }).then((result) => {
-        return new Promise((resolve, reject) => {
-            if (!result) {
-                bf.add(str).then(() => {
-                    resolve(result);
-                })
-            }
-            resolve(result);
-        });
-    });
-    return promise;
-}
-
 let run = () => {
-    const bf = new BloomFilter({ // all params have a default value, and I choose some to present below
-        redisSize: 256, // this will create a string value which is 256 MegaBytes in length
-        hashesNum: 16, // how many hash functions do we use
-        redisKey: 'Bloomfilter', // default will create a string whose keyname is `Node_Bloomfilter_Redis`
-        redisClient: client, // you can choose to create the client by yourself
-    });
-
     const url = 'https://timeline-merger-ms.juejin.im/v1/get_entry_by_rank';
     const category = '5562b415e4b00c57d9b94ac8';
     const src = 'web';
@@ -69,17 +45,16 @@ let run = () => {
                 category: item.category
             }));
             entrylist.forEach(v => {
-                let tmp = isExist(bf, v.objectId);
-                console.log('current value whether exist in redis:', tmp);
-                console.log('current insert value:', v);
-                tmp.then((isExist) => {
-                    if (!isExist) {
+                client.get(v.objectId, function (err, reply) {
+                    if (err) throw err;
+                    if (reply == null) {
+                        console.log('==', v.objectId);
+                        client.set(v.objectId, 1);
                         store.insert(v);
                     }
-                });
+                })
             })
-
         });
     })
 }
-setInterval(run, 1000 * 60 * 5);
+setInterval(run, 1000 * 30);

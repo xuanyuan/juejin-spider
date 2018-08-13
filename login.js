@@ -11,7 +11,7 @@ let login = () => {
             },
             body: JSON.stringify({
                 email: 'yourusername',
-                password: 'yourpasswd'
+                password: 'yourpassword'
             })
         }, (err, res, body) => {
             if (err) {
