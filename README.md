@@ -9,8 +9,10 @@
 
 2. 准备工作和运行
 * npm install
+
 #开发调试环境
 * node article.js
+
 #生产环境
 * pm2 start article.js
 
