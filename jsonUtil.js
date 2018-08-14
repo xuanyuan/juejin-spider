@@ -25,6 +25,7 @@ function read() {
     return new Promise((resolve, reject) => {
         fs.readFile('./userInfo.json', function (err, data) {
             if (err) {
+                console.log('读取用户登录文件失败', err);
                 reject(err);
                 return;
             }

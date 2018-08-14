@@ -1,5 +1,7 @@
 const request = require('request');
 const jsonUtil = require('./jsonUtil');
+const logUtil = require('./logUtil');
+
 // 模拟登陆
 let login = () => {
     return new Promise((resolve, reject) =>{
@@ -15,7 +17,10 @@ let login = () => {
             })
         }, (err, res, body) => {
             if (err) {
+                throw err;
                 reject(err);
+            } else if (res.statusCode !== 200){
+                reject('please ensure your account and password is correct.')
             } else {
                 const cookie = res.headers['set-cookie'];
                 const encodeToken = cookie[0]
@@ -31,10 +36,14 @@ let login = () => {
 
 // 获取用户信息，存储到json文件中
 let getUserInfo = () => {
-    login().then((loginInfo) => {
-        jsonUtil.write(loginInfo);
-    });
-}
+    login().then(
+        (loginInfo) => {
+            jsonUtil.write(loginInfo);
+        },
+        (err) => {
+            console.log('login failed:', err);
+        });
+};
 
 // getUserInfo();
 module.exports = {
