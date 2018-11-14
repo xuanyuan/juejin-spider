@@ -10,11 +10,39 @@
 2. 准备工作和运行
 * npm install
 
-#开发调试环境
-* node article.js
+3. 配置工作
+* 数据库配置
+```javascript
+// database/config.js 
+// example
+module.exports = {
+  host: '127.0.0.1',
+  user: 'root',
+  password: '123456',
+  database: 'test',
+  insecureAuth: true
+}
+```
+* 用户掘金账户信息
+```javascript
+// auth/config.js
+// example
+module.exports = {
+  email: 'xxx@163.com',
+  password: 'xxx'
+}
+```
 
-#生产环境
-* pm2 start article.js
+4. 启动
+* 开发调试
+```
+node index.js
+```
+
+* 生产环境
+```
+pm2 start index.js
+```
 
 3. 代码流程
 
@@ -38,6 +66,10 @@
 
 简单的错误处理＆日志输出功能
 目前为止，代码给人的整体感觉还是dog shit.
+
+**2018-11-14 22:11:37**
+
+文件重命名，根据功能划分模块
 
 参考文章
 

@@ -1,12 +1,13 @@
 const mysql = require('mysql');
-
+const config = require('./config')
 // 创建连接池
 const pool = mysql.createPool({
     connectionLimit: 10,
-    host: 'localhost',
-    user: 'root',
-    password: '123456',
-    database: 'juejin'
+    host: config.host,
+    user: config.user,
+    password: config.password,
+    database: config.database,
+    insecureAuth: true
 });
 
 /**

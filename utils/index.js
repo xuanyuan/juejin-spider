@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-
+const JSON_PATH = './utils/userInfo.json';
 /**
  * @description 覆盖写入JSON文件用户内容
  * @author zhangdj
@@ -8,9 +8,9 @@ const fs = require('fs');
  * @param {Object} params
  */
 function write(params) {
-    fs.writeFile('./userInfo.json', JSON.stringify(params), function (err) {
+    fs.writeFile(JSON_PATH, JSON.stringify(params), function (err) {
         if (err) throw err;
-        console.log('write success');
+        console.log('用户权限信息写入成功');
     })
 }
 
@@ -23,7 +23,7 @@ function write(params) {
  */
 function read() {
     return new Promise((resolve, reject) => {
-        fs.readFile('./userInfo.json', function (err, data) {
+        fs.readFile(JSON_PATH, function (err, data) {
             if (err) {
                 console.log('读取用户登录文件失败', err);
                 reject(err);
