@@ -3,4 +3,4 @@ node_modules/
 .vscode/
 
 database/config.js
-auth/config.js
+login/config.js
