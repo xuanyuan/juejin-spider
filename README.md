@@ -25,7 +25,7 @@ module.exports = {
 ```
 * 用户掘金账户信息
 ```javascript
-// auth/config.js
+// login/config.js
 // example
 module.exports = {
   email: 'xxx@163.com',
